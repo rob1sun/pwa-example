@@ -11,7 +11,7 @@
 		content="ie=edge">
 
 <!-- Title -->
-<title>PWA Tutorial</title>
+<title>Fedport PWA</title>
 
 <!-- Meta Tags required for
 	Progressive Web App -->
@@ -24,17 +24,23 @@
 <!-- Manifest File link -->
 <link rel="manifest"
 		href="manifest.json">
+	
+<!-- Fedportal -->
+<link rel="icon" type="image/x-icon" href="https://robertsundin.se/favicon.ico">
+<link rel="stylesheet" href="css/portalaas.css">
+<script src="js/pickidpandsp.js" defer></script>
+	
 </head>
 
 <body>
-<h1 style="color: green;">
-	GeeksforGeeks</h1>
-
-
-<p>
-	This is a simple tutorial for
-	creating a PWA application.
-</p>
+<section id="myOrg"></section>
+<div class="selectIdpDiv" id="idpSelectDiv">
+<h1>Federationsportalen</h1>
+<select class="button" id="idpSelect" onchange="updateIdp()">
+<option value="" selected>Välj inloggning</option>
+</select>
+</div>
+<div id="spList" class="flex-container wrap"></div>
 
 
 <script>
