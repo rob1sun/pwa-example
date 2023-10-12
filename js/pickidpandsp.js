@@ -23,13 +23,13 @@ function searchFilter() {
                 return idpResponse.json();
             })
             .then(function (idpData) {
-                appendSpData(idpData);
+                appendIdpData(idpData);
             })
             .catch(function (err) {
                 console.log('error: ' + err);
             });
 //Append json och nästla efterföljande script
-        function appendSpData(idpData) {
+        function appendIdpData(idpData) {
 			
             for (let y = 0; y < idpData.length; y++) {
 				let idpDisplayName = idpData[y].idpDisplayName
@@ -45,24 +45,22 @@ const opt = document.createElement('option');
   
   dFragIdp.appendChild(opt);
   
-  document.getElementById('idpSelect').appendChild(dFragIdp);
+  document.getElementById("idpSelect").appendChild(dFragIdp);
   
 }}
 
-//Sätt vald entityID som variabel
- function updateIdp() {
-  let pickedIdp = document.getElementById("idpSelect").value;
-  
+//Kolla om det redan finns en vald IdP sen tidigare
 
-// sätt text från selected option som variabel
-const pickedIdpDisplay = (el) => {
-  if (el.selectedIndex === -1) {
-    return null;
+if (localStorage.getItem("idpOrgEntity") !== null) {
+	document.getElementById("idpSelectDiv").style.display = "none";
+  } else {
+    document.getElementById("spList").style.display = "none";
+	document.getElementById("idpSelectDiv").style.display = "show";
   }
-  return el.options[el.selectedIndex].text;
-}
-const select = document.querySelector('select')
-const text = pickedIdpDisplay(select);
+
+
+
+//Under här
 
 
 // visa vald organisation och omval
@@ -74,10 +72,39 @@ const myOrgContent=`
 </div>
 `;
 
+
+//Sätt vald entityID som variabel - eller localStore i ny kod
+
+ function updateIdp() {
+  let userPickedIdp = document.getElementById("idpSelect").value;
+  localStorage.setItem("idpOrgEntity",userPickedIdp);
+  
+
+
+// sätt text från selected option som variabel
+const pickedIdpDisplay = (el) => {
+  if (el.selectedIndex === -1) {
+    return null;
+  }
+  return el.options[el.selectedIndex].text;
+}
+const select = document.querySelector('select')
+const text = pickedIdpDisplay(select);
+localStorage.setItem("idpOrgName",text);
+  
+  location.reload();
+
+ }
+  
+  const pickedIdp = localStorage.getItem("idpOrgEntity");
+
+
+
+
 document.getElementById("myOrg").innerHTML = myOrgContent;
 
 // infoga text för vald option i dokumentet
-document.getElementById("show").innerHTML = text;
+document.getElementById("show").innerHTML = localStorage.getItem("idpOrgName");
   
  	
 		//Läs in SP-array från json
@@ -130,10 +157,9 @@ const dFrag = document.createDocumentFragment();
   document.getElementById('spList').appendChild(dFrag);
   
   
- // Dölj val av orgaisation efter att valet är gjort
-  document.getElementById("idpSelectDiv").style.display = "none";
+
   
-		}}}}
+			}}}
 
 //Visa alert box och ladda därefter om dokumentet vid "välj en annan organisation"
 function reload() {
